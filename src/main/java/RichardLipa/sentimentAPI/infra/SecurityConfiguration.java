@@ -34,6 +34,8 @@ public class SecurityConfiguration  {
               .authorizeHttpRequests( req ->{
                   System.out.printf("entro a autohrizeFilterr.....    ");
                   req.requestMatchers(HttpMethod.POST, "/login").permitAll();//ruta permitida para todos
+                  // ruta sentiment api(recibe los comentarios)
+                  req.requestMatchers(HttpMethod.POST, "/sentiment").permitAll();//ruta permitida para todos
                   req.requestMatchers(HttpMethod.GET, "/usuarios").permitAll();
                   req.requestMatchers(HttpMethod.GET, "/comentarios").permitAll();
                   req.requestMatchers(HttpMethod.GET, "/analizar").permitAll();

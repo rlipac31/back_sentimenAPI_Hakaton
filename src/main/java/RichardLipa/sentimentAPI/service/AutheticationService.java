@@ -2,7 +2,7 @@ package RichardLipa.sentimentAPI.service;
 
 
 import RichardLipa.sentimentAPI.domain.usuario.IUsuarioRepository;
-import io.swagger.v3.oas.annotations.servers.Server;
+//import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

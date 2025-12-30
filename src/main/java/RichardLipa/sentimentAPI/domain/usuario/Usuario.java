@@ -100,4 +100,8 @@ public class Usuario implements UserDetails {
     public void setEmail(@NotBlank String email) {
         this.email = email.toLowerCase();
     }
+
+    public String getEmail() {
+        return email;
+    }
 }
