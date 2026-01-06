@@ -31,9 +31,17 @@ public class SecurityConfiguration  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
       return  http.csrf(csrf->csrf.disable())//desabilitamos el csrf no se necesista para api Rest
               .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//desabilitamos el redireccionamiento a login , ahora carganormalmente kas rutas sin pedir loguearse//ahora nuestro sistema ya no esta en STATEFULL ahora esta en STATELESS
+              .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Permitir H2 console en iframe
               .authorizeHttpRequests( req ->{
                   System.out.printf("entro a autohrizeFilterr.....    ");
+                  // Rutas de autenticación - PÚBLICO
+                  req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                  req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                   req.requestMatchers(HttpMethod.POST, "/login").permitAll();//ruta permitida para todos
+                  
+                  // H2 Console - PÚBLICO (solo desarrollo)
+                  req.requestMatchers("/h2-console/**").permitAll();
+                  
                   // ruta sentiment api(recibe los comentarios)
                   req.requestMatchers(HttpMethod.POST, "/sentiment").permitAll();//ruta permitida para todos
                   req.requestMatchers(HttpMethod.GET, "/usuarios").permitAll();
