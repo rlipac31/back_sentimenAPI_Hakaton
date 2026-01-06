@@ -89,5 +89,9 @@ public class Comentario {
     public void setState(Boolean state) {
         this.state = state;
     }
+
+    public void desactivar() {
+        this.state = false;
+    }
 }
 
