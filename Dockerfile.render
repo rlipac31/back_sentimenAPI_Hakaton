@@ -1,0 +1,54 @@
+# Dockerfile optimizado para Render - Spring Boot Backend
+# Build Stage: Compila la aplicación
+FROM eclipse-temurin:17-jdk-alpine AS build
+
+# Instalar dependencias necesarias
+RUN apk add --no-cache dos2unix
+
+WORKDIR /app
+
+# Copiar archivos de Maven
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
+
+# Convertir line endings y dar permisos de ejecución
+RUN dos2unix mvnw && chmod +x mvnw
+
+# Descargar dependencias (capa cacheada)
+RUN ./mvnw dependency:go-offline -B
+
+# Copiar código fuente
+COPY src ./src
+
+# Construir la aplicación
+RUN ./mvnw clean package -DskipTests -B
+
+# Runtime Stage: Ejecuta la aplicación
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+# Instalar curl para health checks
+RUN apk add --no-cache curl
+
+# Crear usuario no-root para seguridad
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+
+# Copiar JAR desde la etapa de build
+COPY --from=build /app/target/*.jar app.jar
+
+# Exponer puerto (Render usa la variable PORT)
+EXPOSE 8090
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:${PORT:-8090}/actuator/health || exit 1
+
+# Comando de inicio con configuración para Render
+# Render proporciona DATABASE_URL, así que necesitamos parsearlo
+ENTRYPOINT ["java", \
+  "-Djava.security.egd=file:/dev/./urandom", \
+  "-Dserver.port=${PORT:-8090}", \
+  "-jar", \
+  "app.jar"]

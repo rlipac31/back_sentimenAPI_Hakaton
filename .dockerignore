@@ -1,0 +1,40 @@
+# Ignorar frontend completo
+frontend/
+
+# Archivos de desarrollo
+.git
+.gitignore
+.gitattributes
+.idea
+.vscode
+*.iml
+*.iws
+*.ipr
+
+# Archivos de build
+target/
+*.class
+*.jar
+*.war
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# Archivos de test
+dataset_sentimiento_final_v2.csv
+test_ds_api.py
+test_request.json
+TestIntegration.java
+
+# README y documentación (opcional)
+README.md
