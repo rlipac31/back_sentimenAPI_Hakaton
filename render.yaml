@@ -1,0 +1,54 @@
+services:
+  # Backend Spring Boot
+  - type: web
+    name: sentiment-api-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: free # Cambia a 'starter' para mejor rendimiento
+    region: oregon # O la región más cercana a ti
+    branch: main # Rama de Git a desplegar
+    
+    # Variables de entorno
+    envVars:
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m"
+      
+      - key: SPRING_PROFILES_ACTIVE
+        value: "prod"
+      
+      # Base de datos (Render PostgreSQL o MySQL externo)
+      - key: SPRING_DATASOURCE_URL
+        sync: false # Configura manualmente o desde Render Dashboard
+      
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      
+      # API de Data Science (URL de tu servicio Python en Render)
+      - key: DS_API_URL
+        value: "https://tu-ds-api.onrender.com/sentiment"
+      
+      # JWT Secret
+      - key: API_SECURITY_TOKEN_SECRET
+        generateValue: true # Render genera un valor aleatorio
+      
+      - key: PORT
+        value: "8090"
+    
+    # Health check endpoint
+    healthCheckPath: /actuator/health
+    
+    # Configuración de build
+    buildCommand: echo "Building with Docker..."
+    
+    # Auto-deploy
+    autoDeploy: true
+
+# Si necesitas base de datos PostgreSQL en Render
+databases:
+  - name: sentiment-db
+    plan: free
+    databaseName: sentimentdb
+    user: sentimentuser
