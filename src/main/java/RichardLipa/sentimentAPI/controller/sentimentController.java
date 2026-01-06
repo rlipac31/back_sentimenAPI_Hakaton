@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/sentiment")
+@RequestMapping("/sentiment")// endPoind
 public class sentimentController {
 
 
