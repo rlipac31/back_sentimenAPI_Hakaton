@@ -54,11 +54,26 @@ spring.jpa.show-sql=true
 ```
 ### 3. Rutas
 
-``` # Rutas
+``` # endPoinds
 LISTANDO COMENTARIOS
- GET: http://localhost:8090/comentarios
- CLASIFICANDO COMENTARIOS
-GET:http://localhost:8090/analizar/analizar-comentarios
+  * formato json (Importante si no da error 403)
+  [
+    { "texto": "comentario........."}
+  ]
+    http://localhost:8090/predict
+
+ * mediante archivos .CSV
+  * BODY(multipart:FormData)  name:file
+   http://localhost:8090/predict/upload-csv
+   
+  * eportar archivo :CSV
+    http://localhost:8090/predict/export-csv
+  * BODY(multipart:FormData)  name:file
+
+
+
+
+
 ```
 
 
