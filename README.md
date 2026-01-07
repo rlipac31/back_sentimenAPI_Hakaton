@@ -65,14 +65,7 @@ LISTANDO COMENTARIOS
  * mediante archivos .CSV
   * BODY(multipart:FormData)  name:file
    http://localhost:8090/predict/upload-csv
-   
-  * eportar archivo :CSV
-    http://localhost:8090/predict/export-csv
-  * BODY(multipart:FormData)  name:file
-
-
-
-
+  
 
 ```
 
