@@ -18,18 +18,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration// le decemos a sprin que esta es una clase de configuracion
 @EnableWebSecurity // le decimos a sprin securiti que hablilite blos cambios de configuracion
 public class SecurityConfiguration  {
     @Autowired
     private SecurityFilter securityFilter;// iyectamos nuestra clase
+    
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
 
     //creamos un metodo de java sprint security   // sprion injetca de forma automatica los parametros
     // de sucuriada  de sprint security con httpSecuriry
     @Bean//anotacion jpa para que sprint boot puede cargar ese metodo y sorint security lo pueda leer
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
       return  http.csrf(csrf->csrf.disable())//desabilitamos el csrf no se necesista para api Rest
+              .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilitar CORS
               .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//desabilitamos el redireccionamiento a login , ahora carganormalmente kas rutas sin pedir loguearse//ahora nuestro sistema ya no esta en STATEFULL ahora esta en STATELESS
               .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Permitir H2 console en iframe
               .authorizeHttpRequests( req ->{
