@@ -22,20 +22,9 @@ public class PredictController {
     private SentimientoService service;
 
     // 1. MANTIENE LA FUNCIONALIDAD JSON ORIGINAL
-/*
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<List<DatosRespuestaSentimiento>> analizarJson(@RequestBody List<DatosTextoJson> datos) {
-        System.out.println("ejecutando /predict:: " + datos.size());
-        if(datos.size() < 1){
-
-        }
-        List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
-        return ResponseEntity.ok(resultados);
-    }
-*/
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<?> analizarJson(@RequestBody List<DatosTextoJson> datos) {
+    public ResponseEntity<?> analizarJson(@RequestBody(required = false) List<DatosTextoJson> datos) {
         System.out.println("ejecutando /predict");
         if (datos == null || datos.isEmpty()) {
             System.out.println("peticion en blanco");
@@ -49,17 +38,14 @@ public class PredictController {
         return ResponseEntity.ok(resultados);
     }
 
+
+
+
     // 2. RECIBE UN ARCHIVO CSV Y DEVUELVE JSON
-/*    @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
-    public ResponseEntity<List<DatosRespuestaSentimiento>> analizarCsv(@RequestParam("file") MultipartFile file) throws Exception {
-        // Leemos el CSV y lo convertimos a la lista de objetos que ya conoces
-        List<DatosTextoJson> datos = service.leerCsv(file);
-        List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
-        return ResponseEntity.ok(resultados);
-    }*/
+
 
     @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
-    public ResponseEntity<?> analizarCsv(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> analizarCsv(@RequestParam("file")  MultipartFile file) {
         try {
             // 1. Validar si el archivo existe
             if (file == null || file.isEmpty()) {
@@ -108,7 +94,7 @@ public class PredictController {
     }
 
     // 3. RECIBE UN ARCHIVO CSV Y DEVUELVE OTRO ARCHIVO CSV (EXPORTAR)
-    @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")
+/*    @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")
     public void exportarCsv(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws Exception {
         // Configuramos el nombre del archivo de salida
         response.setContentType("text/csv");
@@ -120,4 +106,6 @@ public class PredictController {
         // Llamamos al servicio para escribir los resultados directamente en el flujo de respuesta
         service.escribirCsv(resultados, response.getWriter());
     }
+    */
+
 }
