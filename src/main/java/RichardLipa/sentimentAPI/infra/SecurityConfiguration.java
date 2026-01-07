@@ -34,7 +34,7 @@ public class SecurityConfiguration  {
     @Bean//anotacion jpa para que sprint boot puede cargar ese metodo y sorint security lo pueda leer
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
       return  http.csrf(csrf->csrf.disable())//desabilitamos el csrf no se necesista para api Rest
-              .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilitar CORS
+              .cors(cors -> cors.configurationSource(corsConfigurationSource)) // Habilitar CORS
               .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//desabilitamos el redireccionamiento a login , ahora carganormalmente kas rutas sin pedir loguearse//ahora nuestro sistema ya no esta en STATEFULL ahora esta en STATELESS
               .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Permitir H2 console en iframe
               .authorizeHttpRequests( req ->{
