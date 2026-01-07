@@ -15,10 +15,12 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Permitir el frontend de Next.js
+        // Permitir el frontend de Next.js y Vite
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:3000",
-            "http://127.0.0.1:3000"
+            "http://127.0.0.1:3000",
+            "http://localhost:8080",
+            "http://127.0.0.1:8080"
         ));
         
         // Permitir métodos HTTP necesarios
