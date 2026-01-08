@@ -35,6 +35,7 @@ public class SecurityConfiguration  {
                   System.out.printf("entro a autohrizeFilterr.....    ");
                   req.requestMatchers(HttpMethod.POST, "/login").permitAll();//ruta permitida para todos
                   // ruta sentiment api(recibe los comentarios)
+                  req.requestMatchers(HttpMethod.GET, "/").permitAll();//ruta permitida para todos
                   req.requestMatchers(HttpMethod.POST, "/sentiment").permitAll();//ruta permitida para todos
                  // req.requestMatchers(HttpMethod.POST, "/predict").permitAll();//ruta permitida para todos
                   req.requestMatchers(HttpMethod.POST, "/sentiment/upload-csv").permitAll();//
