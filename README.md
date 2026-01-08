@@ -48,10 +48,14 @@ spring.datasource.username=tu_usuario_mysql
 spring.datasource.password=tu_contraseña_mysql
 spring.jpa.hibernate.ddl-auto=none
 spring.jpa.show-sql=true
-
-
-
 ```
+### Configuracion de base de datos usando variables de entorno
+```
+spring.datasource.url=${SPRING_DATASOURCE_URL}
+spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
+```
+
 ### 3. Rutas
 
 ``` # endPoinds
@@ -60,14 +64,38 @@ LISTANDO COMENTARIOS
   [
     { "texto": "comentario........."}
   ]
-    http://localhost:8090/predict
+    http://localhost:8090/sentiment
 
  * mediante archivos .CSV
   * BODY(multipart:FormData)  name:file
-   http://localhost:8090/predict/upload-csv
+   http://localhost:8090/sentiment/upload-csv
   
 
 ```
+
+## Proyecto Preeliminar(todas los requisitos basicos listos)
+
+### URL del SentimenAPI(montado en azure capa de prueba)(YA SE PUEDEN PROBAR EN POSTMANT INSOMNIA, ETC)
+```
+https://lipa-sentiment-api.azurewebsites.net/sentiment
+```
+### URL API PYTHON
+```
+https://rlipac-python-api.hf.space/
+```
+### Repositorio de Backend Java(elaborado por el equipo backend)
+```
+https://github.com/rlipac31/back_sentimenAPI_Hakaton.git
+```
+
+### Repositorio de API PYTHON ( elaborado por el equipo de Data)
+```
+https://github.com/rlipac31/API-PYTHON_sentimentAPI.git
+
+```
+### URL  Dataset 
+
+https://drive.google.com/drive/folders/1-83KeJKAytLJoX0y9JmYJ3u9yQMMdcro?usp=sharing
 
 
 
