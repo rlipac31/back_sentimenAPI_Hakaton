@@ -37,7 +37,7 @@ Asegúrate de tener instalado lo siguiente:
 * MySQL Server (o Docker para facilitar la ejecución).
 * Una clave API válida para **Mistral AI** (necesaria para el servicio de clasificación).
 
-### 2. Configuración de la Base de Datos y la IA
+
 
 Crea o modifica tu archivo `src/main/resources/application.properties` (o `application.yml`) y añade las siguientes configuraciones, reemplazando los valores de ejemplo con tus credenciales reales:
 
@@ -94,8 +94,9 @@ https://github.com/rlipac31/API-PYTHON_sentimentAPI.git
 
 ```
 ### URL  Dataset 
-
+```
 https://drive.google.com/drive/folders/1-83KeJKAytLJoX0y9JmYJ3u9yQMMdcro?usp=sharing
+```
 
 
 
