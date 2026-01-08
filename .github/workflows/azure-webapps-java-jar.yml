@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar' # <--- Asegúrate que diga app.jar
+          path: target/*.jar # <--- Asegúrate que diga app.jar
 
   deploy:
     permissions:
@@ -76,4 +76,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{ github.workspace }}/target/*.jar' # <--- ESTO ES VITAL
+          package: 'target/*.jar' # <--- ESTO ES VITAL
