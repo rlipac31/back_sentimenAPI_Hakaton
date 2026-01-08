@@ -14,6 +14,7 @@ import java.util.ArrayList;
     @RequestMapping("/")// endPoind
     public class HomeController {
         public Map<String, Object> home() {
+            System.out.println("Ejecutando Home Controler........");
             // Usamos LinkedHashMap para mantener el orden de inserción
             Map<String, Object> response = new LinkedHashMap<>();
 
