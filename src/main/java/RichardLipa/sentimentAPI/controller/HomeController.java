@@ -13,6 +13,7 @@ import java.util.ArrayList;
     @RestController
     @RequestMapping("/")// endPoind
     public class HomeController {
+        @GetMapping
         public Map<String, Object> home() {
             System.out.println("Ejecutando Home Controler........");
             // Usamos LinkedHashMap para mantener el orden de inserción
@@ -37,7 +38,7 @@ import java.util.ArrayList;
             ejemplo.add(itemEjemplo);
 
             // Esto hará que aparezca con [ { "texto": "..." } ]
-            response.put("ejemplo_json", ejemplo);
+            response.put("En este formato", ejemplo);
 
             return response;
         }

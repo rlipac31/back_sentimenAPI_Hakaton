@@ -27,7 +27,7 @@ public class sentimentController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<?> analizarJson(@RequestBody(required = false) List<DatosTextoJson> datos) {
-        System.out.println("ejecutando /predict");
+        System.out.println("ejecutando /sentiment");
         if (datos == null || datos.isEmpty()) {
             System.out.println("peticion en blanco");
             return ResponseEntity
@@ -43,6 +43,7 @@ public class sentimentController {
 
     @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
     public ResponseEntity<?> analizarCsv(@RequestParam("file") MultipartFile file) {
+        System.out.println("ejecutando /sentiment/upload-csv");
         try {
             // 1. Validar si el archivo existe
             if (file == null || file.isEmpty()) {
