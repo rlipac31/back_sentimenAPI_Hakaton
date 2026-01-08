@@ -3,14 +3,14 @@ package RichardLipa.sentimentAPI.controller;
 
 import RichardLipa.sentimentAPI.domain.comentario.DatosRespuestaSentimiento;
 import RichardLipa.sentimentAPI.domain.comentario.DatosTextoJson;
+import RichardLipa.sentimentAPI.domain.comentario.ErrorMensaje;
 import RichardLipa.sentimentAPI.domain.comentario.ListaComentariosRecord;
 import RichardLipa.sentimentAPI.service.SentimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,17 +23,73 @@ public class sentimentController {
     @Autowired
     private SentimientoService service;
 
-    @PostMapping
-    public ResponseEntity<List<DatosRespuestaSentimiento>>  analizar(@RequestBody List<DatosTextoJson> datos) {
-        // 1. Recibimos la lista de Java Records
-        // 2. El servicio los manda uno por uno al Colab
+    // 1. MANTIENE LA FUNCIONALIDAD JSON ORIGINAL
+
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<?> analizarJson(@RequestBody(required = false) List<DatosTextoJson> datos) {
+        System.out.println("ejecutando /predict");
+        if (datos == null || datos.isEmpty()) {
+            System.out.println("peticion en blanco");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorMensaje("No se encontraron comentarios para procesar", 400));
+        }
+
+        // Si todo está bien, procesamos
         List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
-        System.out.println("Api ...recibiendo comentarios....");
-        //System.out.println(resultados);
-      //  return ResponseEntity.ok(datos.resenias());
-        // 3. Devolvemos la lista de predicciones al usuario
         return ResponseEntity.ok(resultados);
     }
+
+
+    @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
+    public ResponseEntity<?> analizarCsv(@RequestParam("file") MultipartFile file) {
+        try {
+            // 1. Validar si el archivo existe
+            if (file == null || file.isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new ErrorMensaje("No se ha seleccionado ningún archivo.", 400));
+            }
+
+            // 2. VALIDACIÓN DE TAMAÑO (Máximo 3MB)
+            // 3MB = 3 * 1024 * 1024 bytes = 3,145,728 bytes
+            long maxSizeBytes = 3 * 1024 * 1024;
+            if (file.getSize() > maxSizeBytes) {
+                return ResponseEntity
+                        .status(HttpStatus.PAYLOAD_TOO_LARGE)
+                        .body(new ErrorMensaje("El archivo es demasiado grande. El límite permitido es de 3MB.", 413));
+            }
+
+            // 3. Validar extensión CSV
+            String contentType = file.getContentType();
+            String fileName = file.getOriginalFilename();
+            boolean isCsv = (contentType != null && contentType.equals("text/csv")) ||
+                    (fileName != null && fileName.toLowerCase().endsWith(".csv"));
+
+            if (!isCsv) {
+                return ResponseEntity
+                        .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                        .body(new ErrorMensaje("Formato no válido. Solo se permiten archivos .csv", 415));
+            }
+
+            // 4. Procesar datos
+            List<DatosTextoJson> datos = service.leerCsv(file);
+            if (datos.isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new ErrorMensaje("El archivo CSV no contiene datos válidos.", 400));
+            }
+
+            List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
+            return ResponseEntity.ok(resultados);
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorMensaje("Error interno al procesar el CSV: " + e.getMessage(), 500));
+        }
+    }
+
 
 }
 

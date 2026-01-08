@@ -36,9 +36,9 @@ public class SecurityConfiguration  {
                   req.requestMatchers(HttpMethod.POST, "/login").permitAll();//ruta permitida para todos
                   // ruta sentiment api(recibe los comentarios)
                   req.requestMatchers(HttpMethod.POST, "/sentiment").permitAll();//ruta permitida para todos
-                  req.requestMatchers(HttpMethod.POST, "/predict").permitAll();//ruta permitida para todos
-                  req.requestMatchers(HttpMethod.POST, "/predict/upload-csv").permitAll();//
-                  req.requestMatchers(HttpMethod.POST, "/predict/export-csv").permitAll();//export-csv
+                 // req.requestMatchers(HttpMethod.POST, "/predict").permitAll();//ruta permitida para todos
+                  req.requestMatchers(HttpMethod.POST, "/sentiment/upload-csv").permitAll();//
+                  req.requestMatchers(HttpMethod.POST, "/sentiment/export-csv").permitAll();//export-csv
                   req.requestMatchers(HttpMethod.GET, "/usuarios").permitAll();
                   req.requestMatchers(HttpMethod.GET, "/comentarios").permitAll();
                   req.requestMatchers(HttpMethod.GET, "/analizar").permitAll();
