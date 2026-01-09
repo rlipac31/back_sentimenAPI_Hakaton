@@ -37,7 +37,7 @@ public class SentimientoService {
     *
     * */
 
-    //private final String COLAB_URL = "http://0.0.0.0:8000/predict";//servidor local
+   // private final String COLAB_URL = "http://127.0.0.1:4000/predict";//servidor local
    private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
 
     public List<DatosRespuestaSentimiento> procesarLista(List<DatosTextoJson> datos) {
