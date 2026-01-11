@@ -9,16 +9,16 @@ import java.util.Locale;
 public record DatosListaComentarios(
         Long id,
         String comentario,
-        Tipo tipo,
-        String usuario,
+        Tipo prevision,
+        Float provabilidad,
         String fecharegistro
 ) {
     public DatosListaComentarios(Comentario comentario) {
         this(
                 comentario.getId(),
                 comentario.getComentario(),
-                comentario.getTipo(),
-                comentario.getUsuario().getEmail(),
+                comentario.getPrevision(),
+                comentario.getProvabilidad(),
                 comentario.getFechaRegistro().format(
                         DateTimeFormatter.ofPattern( "d 'de' MMMM 'del' yyyy 'a las' h:mm a", new Locale("es", "ES"))
                 )

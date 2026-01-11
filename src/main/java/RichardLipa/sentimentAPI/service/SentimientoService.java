@@ -1,5 +1,6 @@
 package RichardLipa.sentimentAPI.service;
 
+import RichardLipa.sentimentAPI.domain.comentario.DatosRegistroComentario;
 import RichardLipa.sentimentAPI.domain.comentario.DatosRespuestaSentimiento;
 import RichardLipa.sentimentAPI.domain.comentario.DatosTextoJson;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import java.io.Writer;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class SentimientoService {
    // private final String COLAB_URL = "http://127.0.0.1:4000/predict";//servidor local
    private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
 
-    public List<DatosRespuestaSentimiento> procesarLista(List<DatosTextoJson> datos) {
+    public List<DatosRespuestaSentimiento> procesarLista( List<DatosRegistroComentario> datos) {
         System.out.println("texto antes de procesar :::  " + datos);
         RestTemplate restTemplate = new RestTemplate();
         System.out.println("datos:::" + datos);

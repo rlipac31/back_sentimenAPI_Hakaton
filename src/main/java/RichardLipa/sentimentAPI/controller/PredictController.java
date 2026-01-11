@@ -23,7 +23,7 @@ public class PredictController {
 
     // 1. MANTIENE LA FUNCIONALIDAD JSON ORIGINAL
 
-    @PostMapping(consumes = "application/json")
+/*    @PostMapping(consumes = "application/json")
     public ResponseEntity<?> analizarJson(@RequestBody(required = false) List<DatosTextoJson> datos) {
         System.out.println("ejecutando /predict");
         if (datos == null || datos.isEmpty()) {
@@ -36,7 +36,7 @@ public class PredictController {
         // Si todo está bien, procesamos
         List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
         return ResponseEntity.ok(resultados);
-    }
+    }*/
 
 
 
@@ -44,7 +44,7 @@ public class PredictController {
     // 2. RECIBE UN ARCHIVO CSV Y DEVUELVE JSON
 
 
-    @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
+/*    @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
     public ResponseEntity<?> analizarCsv(@RequestParam("file")  MultipartFile file) {
         try {
             // 1. Validar si el archivo existe
@@ -91,7 +91,7 @@ public class PredictController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorMensaje("Error interno al procesar el CSV: " + e.getMessage(), 500));
         }
-    }
+    }*/
 
     // 3. RECIBE UN ARCHIVO CSV Y DEVUELVE OTRO ARCHIVO CSV (EXPORTAR)
 /*    @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")

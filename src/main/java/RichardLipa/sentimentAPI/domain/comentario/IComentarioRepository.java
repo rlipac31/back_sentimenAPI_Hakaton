@@ -9,4 +9,8 @@ import java.util.Optional;
 
 public interface IComentarioRepository extends JpaRepository<Comentario, Log> {
     Page<Comentario> findAllByStateTrue(Pageable paginacion);
+
+    // Métodos para contar
+    long countByPrevisionAndStateTrue(Tipo prevision);
+    long countByStateTrue();
 }

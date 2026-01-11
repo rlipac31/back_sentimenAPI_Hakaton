@@ -25,8 +25,11 @@ import java.util.ArrayList;
 
             // 2. Endpoints
             Map<String, String> endpoints = new LinkedHashMap<>();
+
             endpoints.put("analisis_json", "/sentiment");
             endpoints.put("carga_masiva_csv", "/sentiment/upload-csv");
+            endpoints.put("guardando_comentarios","/sentiment/save-cometario");
+            endpoints.put("estadisticas", "/stats");
             response.put("endpoints", endpoints);
 
             // 3. Formato JSON (como un objeto real, no texto)
@@ -38,7 +41,7 @@ import java.util.ArrayList;
             ejemplo.add(itemEjemplo);
 
             // Esto hará que aparezca con [ { "texto": "..." } ]
-            response.put("En este formato", ejemplo);
+            response.put("En_este_formato", ejemplo);
 
             return response;
         }

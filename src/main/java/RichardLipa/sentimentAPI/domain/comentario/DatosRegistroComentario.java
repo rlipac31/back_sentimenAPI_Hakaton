@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 public record DatosRegistroComentario(
 
-       @NotBlank String comentario,
-        Tipo tipo,
-       @NotNull Long id_usuario
+       @NotBlank String texto,
+        Tipo prevision,
+        Float provabilidad
 
 ) {
 }

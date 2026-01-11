@@ -8,8 +8,7 @@ import java.util.Locale;
 public record DatosDetalleComentario(
         Long id,
         String comentario,
-        Tipo tipo,
-        String usuario,
+        Tipo previson,
         String fechaRegistro
 ) {
 
@@ -17,8 +16,7 @@ public record DatosDetalleComentario(
         this(
                 comentario.getId(),
                 comentario.getComentario(),
-                comentario.getTipo(),
-                comentario.getUsuario().getEmail(),
+                comentario.getPrevision(),
                 comentario.getFechaRegistro().format(
                         DateTimeFormatter.ofPattern( "d 'de' MMMM 'del' yyyy 'a las' h:mm a", new Locale("es", "ES"))
                 )

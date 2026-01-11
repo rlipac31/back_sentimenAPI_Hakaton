@@ -1,13 +1,11 @@
 package RichardLipa.sentimentAPI.domain.comentario;
 
-import RichardLipa.sentimentAPI.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.extern.java.Log;
 
 import java.time.LocalDateTime;
 
@@ -22,22 +20,20 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode( of = "id")
 public class Comentario {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-   private Long id;
-   private String comentario;
-   @Enumerated(EnumType.STRING)
-   private Tipo tipo;
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "id_usuario")
-   private Usuario usuario;
-   private LocalDateTime fechaRegistro; // LocalDateTime.now();
-   private Boolean state;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String comentario;
+    @Enumerated(EnumType.STRING)
+    private Tipo prevision;
+    private Float provabilidad;
+    private LocalDateTime fechaRegistro; // LocalDateTime.now();
+    private Boolean state;
 
-    public Comentario(@Valid DatosRegistroComentario datos, Usuario usuario) {
+    public Comentario(@Valid DatosRegistroComentario datos) {
         this.id = null;
-        this.comentario = datos.comentario();
-        this.tipo = datos.tipo();
-        this.usuario = usuario;
+        this.comentario = datos.texto();
+        this.prevision = datos.prevision();
+        this.provabilidad= datos.provabilidad();
         this.fechaRegistro = LocalDateTime.now();
         this.state = true;
     }
@@ -58,20 +54,20 @@ public class Comentario {
         this.comentario = comentario;
     }
 
-    public Tipo getTipo() {
-        return tipo;
+    public Tipo getPrevision() {
+        return prevision;
     }
 
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
+    public void setPrevision(Tipo prevision) {
+        this.prevision = prevision;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Float getProvabilidad() {
+        return provabilidad;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setProvabilidad(Float provabilidad) {
+        this.provabilidad = provabilidad;
     }
 
     public LocalDateTime getFechaRegistro() {
