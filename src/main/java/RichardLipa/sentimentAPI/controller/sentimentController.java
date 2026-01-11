@@ -26,7 +26,7 @@ public class sentimentController {
 
     // 1. MANTIENE LA FUNCIONALIDAD JSON ORIGINAL
 
-    @PostMapping(consumes = "application/json")
+/*    @PostMapping(consumes = "application/json")
     public ResponseEntity<?> analizarJson(@RequestBody(required = false) List<DatosRegistroComentario> datos) {
         System.out.println("ejecutando/sentiment......");
         if (datos == null || datos.isEmpty()) {
@@ -39,10 +39,10 @@ public class sentimentController {
         // Si todo está bien, procesamos
         List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
         return ResponseEntity.ok(resultados);
-    }
+    }*/
 
 
-    @PostMapping("/save-cometario")
+    @PostMapping
     @Transactional // Asegura que se guarde todo o nada
     public ResponseEntity<?> registrarComentario(@RequestBody(required = false) List<DatosRegistroComentario> datos) {
         if (datos == null || datos.isEmpty()) {
