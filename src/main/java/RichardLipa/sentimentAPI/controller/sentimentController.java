@@ -25,23 +25,6 @@ public class sentimentController {
     private SentimientoService service;
 
     // 1. MANTIENE LA FUNCIONALIDAD JSON ORIGINAL
-
-/*    @PostMapping(consumes = "application/json")
-    public ResponseEntity<?> analizarJson(@RequestBody(required = false) List<DatosRegistroComentario> datos) {
-        System.out.println("ejecutando/sentiment......");
-        if (datos == null || datos.isEmpty()) {
-            System.out.println("peticion en blanco");
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorMensaje("No se encontraron comentarios para procesar", 400));
-        }
-
-        // Si todo está bien, procesamos
-        List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
-        return ResponseEntity.ok(resultados);
-    }*/
-
-
     @PostMapping
     @Transactional // Asegura que se guarde todo o nada
     public ResponseEntity<?> registrarComentario(@RequestBody(required = false) List<DatosRegistroComentario> datos) {
@@ -82,7 +65,7 @@ public class sentimentController {
     //fin
 
 
- /*   @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
+   @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
     public ResponseEntity<?> analizarCsv(@RequestParam("file") MultipartFile file) {
         System.out.println("ejecutando /sentiment/upload-csv");
         try {
@@ -115,14 +98,14 @@ public class sentimentController {
             }
 
             // 4. Procesar datos
-            List<DatosTextoJson> datos = service.leerCsv(file);
-            if (datos.isEmpty()) {
+            List<DatosRegistroComentario> datosTexto = service.leerCsv(file);
+            if (datosTexto.isEmpty()) {
                 return ResponseEntity
                         .badRequest()
                         .body(new ErrorMensaje("El archivo CSV no contiene datos válidos.", 400));
             }
 
-            List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
+            List<DatosRespuestaSentimiento> resultados = service.procesarLista(datosTexto);
             return ResponseEntity.ok(resultados);
 
         } catch (Exception e) {
@@ -130,5 +113,5 @@ public class sentimentController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorMensaje("Error interno al procesar el CSV: " + e.getMessage(), 500));
         }
-    }*/
+    }
 }

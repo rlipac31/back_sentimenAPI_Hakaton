@@ -40,13 +40,13 @@ public class SentimientoService {
    // private final String COLAB_URL = "http://127.0.0.1:4000/predict";//servidor local
    private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
 
-    public List<DatosRespuestaSentimiento> procesarLista( List<DatosRegistroComentario> datos) {
-        System.out.println("texto antes de procesar :::  " + datos);
+    public List<DatosRespuestaSentimiento> procesarLista(List<DatosRegistroComentario> datosTexto) {
+        System.out.println("texto antes de procesar :::  " + datosTexto);
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("datos:::" + datos);
+        System.out.println("datos:::" + datosTexto);
 
         // Transformamos cada comentario en una llamada al Colab
-        return datos.stream().map(comentario -> {
+        return datosTexto.stream().map(comentario -> {
             try{
                 // Creamos el cuerpo que espera Python: {"text": "el texto del comentario"}
                 Map<String, String> request = Map.of("texto", comentario.texto());
@@ -61,13 +61,13 @@ public class SentimientoService {
         }).toList();
     }
 
-    public List<DatosTextoJson> leerCsv(MultipartFile file) throws Exception {
-        List<DatosTextoJson> lista = new ArrayList<>();
+    public List<DatosRegistroComentario> leerCsv(MultipartFile file) throws Exception {
+        List<DatosRegistroComentario> lista = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
             String[] linea;
             while ((linea = reader.readNext()) != null) {
                 // Suponiendo que el CSV tiene el texto en la primera columna
-                lista.add(new DatosTextoJson(linea[0]));
+                lista.add(new DatosRegistroComentario(linea[0].trim(), null, null ));
             }
         }
         return lista;

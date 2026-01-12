@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
             endpoints.put("analisis_json", "/sentiment");
             endpoints.put("carga_masiva_csv", "/sentiment/upload-csv");
-            endpoints.put("guardando_comentarios","/sentiment/save-cometario");
+           // endpoints.put("guardando_comentarios","/sentiment/save-cometario");
             endpoints.put("estadisticas", "/stats");
             response.put("endpoints", endpoints);
 
