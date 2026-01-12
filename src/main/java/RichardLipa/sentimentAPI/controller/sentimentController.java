@@ -27,7 +27,7 @@ public class sentimentController {
     // 1. MANTIENE LA FUNCIONALIDAD JSON ORIGINAL
     @PostMapping
     @Transactional // Asegura que se guarde todo o nada
-    public ResponseEntity<?> registrarComentario(@RequestBody(required = false) List<DatosRegistroComentario> datos) {
+    public ResponseEntity<?> registrarComentarios(@RequestBody(required = false) List<DatosRegistroComentario> datos) {
         if (datos == null || datos.isEmpty()) {
             return ResponseEntity.badRequest().body(new ErrorMensaje("Lista vacía", 400));
         }
@@ -39,19 +39,8 @@ public class sentimentController {
                             .status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body(new ErrorMensaje("El servicio de análisis no devolvió resultados", 500));
                 }
-
-                // Convertir DTOs a Entidades
-                List<Comentario> comentariosAGuardar = resultados.stream().map(dto -> {
-                    Comentario comentario = new Comentario();
-                    comentario.setComentario(dto.texto());
-                    comentario.setPrevision(Tipo.valueOf(dto.prevision().toUpperCase()));
-                    comentario.setProvabilidad(dto.probabilidad().floatValue());
-                    comentario.setFechaRegistro(LocalDateTime.now());
-                    comentario.setState(true);
-                    return comentario;
-                }).toList();
-                // Guardar todo de una sola vez (más eficiente que un for con save individual)
-                repository.saveAll(comentariosAGuardar);
+                // llamando al metodo de servicio guardando dados en bd
+                service.guardarEnBaseDeDatos(resultados);
             return ResponseEntity.ok(resultados);
         } catch (Exception e) {
             // Si la API en la nube falla o hay error de red, cae aquí
@@ -60,10 +49,6 @@ public class sentimentController {
         }
 
     }
-
-
-    //fin
-
 
    @PostMapping(value = "/upload-csv", consumes = "multipart/form-data")
     public ResponseEntity<?> analizarCsv(@RequestParam("file") MultipartFile file) {
@@ -75,7 +60,6 @@ public class sentimentController {
                         .badRequest()
                         .body(new ErrorMensaje("No se ha seleccionado ningún archivo.", 400));
             }
-
             // 2. VALIDACIÓN DE TAMAÑO (Máximo 3MB)
             // 3MB = 3 * 1024 * 1024 bytes = 3,145,728 bytes
             long maxSizeBytes = 3 * 1024 * 1024;
@@ -106,6 +90,15 @@ public class sentimentController {
             }
 
             List<DatosRespuestaSentimiento> resultados = service.procesarLista(datosTexto);
+            // --- VALIDACIÓN AQUÍ ---
+            if (resultados == null || resultados.isEmpty()) {
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorMensaje("El servicio de análisis no devolvió resultados", 500));
+            }
+
+            // Convertir DTOs a Entidades
+            service.guardarEnBaseDeDatos(resultados);
             return ResponseEntity.ok(resultados);
 
         } catch (Exception e) {

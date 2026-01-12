@@ -58,20 +58,28 @@ spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 
 ### 3. Rutas
 
-``` # endPoinds
+## endPoinds
 LISTANDO COMENTARIOS
   * formato json (Importante si no da error 403)
   [
     { "texto": "comentario........."}
   ]
-    http://localhost:8090/sentiment
+  
+  
+    http://localhost:8090/
+    
+    * lista las 20 ultimos comentarios y susu estadisticas
+    http://localhost:8090/stats
+    
+    * se puede ingresar el numero deseado de comentarios como parametro
+    http://localhost:8090/stats?size=50
+    
 
- * mediante archivos .CSV
+  * mediante archivos .CSV
   * BODY(multipart:FormData)  name:file
    http://localhost:8090/sentiment/upload-csv
   
-
-```
+    
 
 ## Proyecto Preeliminar(todas los requisitos basicos listos)
 

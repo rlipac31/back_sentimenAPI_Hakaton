@@ -1,9 +1,11 @@
 package RichardLipa.sentimentAPI.service;
 
-import RichardLipa.sentimentAPI.domain.comentario.DatosRegistroComentario;
-import RichardLipa.sentimentAPI.domain.comentario.DatosRespuestaSentimiento;
-import RichardLipa.sentimentAPI.domain.comentario.DatosTextoJson;
+import RichardLipa.sentimentAPI.domain.comentario.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 //para leer csv
@@ -17,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.Writer;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +39,39 @@ public class SentimientoService {
 
     *
     * */
+
+    @Autowired
+    private IComentarioRepository comentarioRepository;
+
+    @Transactional
+    public ResponseEntity<ErrorMensaje> guardarEnBaseDeDatos(List<DatosRespuestaSentimiento> resultados) {
+
+        try {
+            if (resultados == null || resultados.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ErrorMensaje("Lista vacía::DESDE SERVOCIO GUARDAR", 400));
+            }
+                List<Comentario> comentarios = resultados.stream().map(dto -> {
+                    Comentario comentario = new Comentario();
+                    comentario.setComentario(dto.texto());
+                    comentario.setPrevision(Tipo.valueOf(dto.prevision().toUpperCase()));
+                    // Usamos doubleValue() o floatValue() según tu entidad
+                    comentario.setProvabilidad(dto.probabilidad().floatValue());
+                    comentario.setFechaRegistro(LocalDateTime.now());
+                    comentario.setState(true);
+                    return comentario;
+                }).toList();
+
+                comentarioRepository.saveAll(comentarios);
+
+            }catch (Exception e) {
+                // Si la API en la nube falla o hay error de red, cae aquí
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                        .body(new ErrorMensaje("Huboo un erro al guardar la lista el la BD : " + e.getMessage(), 503));
+            }
+
+
+        return null;
+    }
 
    // private final String COLAB_URL = "http://127.0.0.1:4000/predict";//servidor local
    private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
@@ -92,7 +128,6 @@ public class SentimientoService {
     }
 
 }
-
 
 
 

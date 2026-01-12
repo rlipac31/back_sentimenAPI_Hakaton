@@ -27,57 +27,39 @@ public class StatisticsController {
     private IComentarioRepository comentarioRepository;
     @Autowired
     private ComentarioService comentarioService;
+
+
+
     @GetMapping
-    public ResponseEntity<Page<DatosListaComentarios>> listarComentarios(
-            @PageableDefault(
-                    size = 20,
-                    sort = {"fechaRegistro"}, // Asegúrate que coincida con el nombre del atributo en tu entidad
-                    direction = Sort.Direction.DESC,
-                    page = 0
-            )
-            Pageable paginacion){
-        var total = paginacion.getPageSize();
-
-        //var page = comentarioRepository.findAllByStateTrue(paginacion).map(DatosListaComentarios:: new);
-        System.out.println("ejecutando estadisticas..::::: "+ total);
-        Page<DatosListaComentarios> page = comentarioService.obtenerComentariosPaginados(paginacion);
-        //var listacomentarios = ResponseEntity.ok(page);
-        return  ResponseEntity.ok(page);
-
-    }
-
-
-
-    @GetMapping("/listar")
-    public ResponseEntity<?> listarComentarios2(
-            @PageableDefault(size = 20, sort = {"fechaRegistro"}, direction = Sort.Direction.DESC) Pageable paginacion) {
+    public ResponseEntity<?> Estadisticas(
+            @PageableDefault(size = 20, sort = {"fechaRegistro"}, direction = Sort.Direction.DESC, page=0) Pageable paginacion) {
 
         // 1. Obtener la página (por ejemplo, los 20 registros solicitados)
         Page<DatosListaComentarios> page = comentarioService.obtenerComentariosPaginados(paginacion);
         List<DatosListaComentarios> listaEnPagina = page.getContent();
 
         // 2. USO DE LAMBDA: Separar y contar en un solo paso
-        Map<Boolean, Long> conteo = listaEnPagina.stream()
+        Map<Boolean, Long> contador = listaEnPagina.stream()
                 .collect(Collectors.partitioningBy(
                         c -> c.prevision() == Tipo.POSITIVO,
                         Collectors.counting()
                 ));
 
-        long pos = conteo.get(true);
-        long neg = conteo.get(false);
+        long posi = contador.get(true);
+        long nega = contador.get(false);
         int totalEnPagina = listaEnPagina.size();
-        System.out.println("psoitvos :: "+ pos);
-        System.out.println("negativos  :: "+ neg);
+        System.out.println("psoitvos :: "+ posi);
+        System.out.println("negativos  :: "+ nega);
 
         // 3. Calcular porcentajes de la página actual
-        String porcPos = (totalEnPagina > 0) ? (pos * 100 / totalEnPagina) + "%" : "0%";
-        String porcNeg = (totalEnPagina > 0) ? (neg * 100 / totalEnPagina) + "%" : "0%";
+        String porcPosi = (totalEnPagina > 0) ? (posi * 100 / totalEnPagina) + "%" : "0%";
+        String porcNega = (totalEnPagina > 0) ? (nega * 100 / totalEnPagina) + "%" : "0%";
 
         // 4. Construir respuesta JSON
         Map<String, Object> respuesta = new LinkedHashMap<>();
         respuesta.put("total_en_pagina", totalEnPagina);
-        respuesta.put("positivos", porcPos);
-        respuesta.put("negativos", porcNeg);
+        respuesta.put("positivos", porcPosi);
+        respuesta.put("negativos", porcNega);
 
         // Agregamos el resto de la estructura de Page
         respuesta.put("content", listaEnPagina);

@@ -1,6 +1,5 @@
 package RichardLipa.sentimentAPI.infra;
 
-
 import RichardLipa.sentimentAPI.domain.usuario.IUsuarioRepository;
 import RichardLipa.sentimentAPI.service.TokenService;
 import jakarta.servlet.FilterChain;
@@ -23,29 +22,37 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
         var jwtToken = recuperarToken(request);
-        if(jwtToken != null){
 
-            var subjet = tokenService.getSubject((String) jwtToken);
-            var usuario = usuarioRepository.findByEmail(subjet);
+        try {
+            if (jwtToken != null) {
+                // Si el token es inválido o expiró, TokenService lanzará una excepción
+                var subject = tokenService.getSubject((String) jwtToken);
+                var usuario = usuarioRepository.findByEmail(subject);
 
-            // le pasamos como parametros el usuario encontrado, credenciales en null si no hay,
-            // y usuario.getAuthorities() de sprint securiti en entidad Usuario(lista de roles)
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (usuario != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+        } catch (RuntimeException e) {
+            // Guardamos el error específico (ej: "Token expirado") para que el Frontend lo vea
+            request.setAttribute("mensaje_error_token", e.getMessage());
         }
-        // si no hay token pasa a control de la clase SecurityConfiguratios y metods de  de sprin security
-        filterChain.doFilter(request, response);// paraque continue la candena de filtros
 
+        // Continuamos con la cadena. Si no hay autenticación, Spring Security
+        // usará el CustomAuthenticationEntryPoint para lanzar el 401.
+        filterChain.doFilter(request, response);
     }
 
-    private Object recuperarToken(HttpServletRequest request) {
-        var  authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader != null){
-            return  authorizationHeader.replace("Bearer ", "");
+    private String recuperarToken(HttpServletRequest request) {
+        var authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.replace("Bearer ", "");
         }
-        return  null;
+        return null;
     }
-
 }

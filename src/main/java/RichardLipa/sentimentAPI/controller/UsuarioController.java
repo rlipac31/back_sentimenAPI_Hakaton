@@ -24,7 +24,7 @@ public class UsuarioController {
     @Transactional
     @PostMapping
      public ResponseEntity registroUsuario(@RequestBody @Valid DatosRegistroUsuario datos, UriComponentsBuilder uriComponentsBuilder){
-
+        System.out.println("Creando uisuarioss::::: ");
         String password = passwordEncoder.encode(datos.contrasenia());
         var usuario = new Usuario(datos);
         usuario.setEmail(datos.email());

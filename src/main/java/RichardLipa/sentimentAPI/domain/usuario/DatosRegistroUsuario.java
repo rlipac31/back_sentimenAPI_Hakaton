@@ -12,8 +12,6 @@ public record DatosRegistroUsuario(
         @NotBlank String nombre,
         @NotBlank String email,
         @NotBlank String contrasenia,
-        @NotNull Role role,
-        LocalDateTime fechaRegistro,
-        Boolean state
+        @NotNull Role role
         ) {
 }

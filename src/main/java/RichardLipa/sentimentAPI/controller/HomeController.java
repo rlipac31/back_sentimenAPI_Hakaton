@@ -40,7 +40,7 @@ import java.util.ArrayList;
             itemEjemplo.put("texto", "comentarios..........");
             ejemplo.add(itemEjemplo);
 
-            // Esto hará que aparezca con [ { "texto": "..." } ]
+            // imprimiendo el formato  [ { "texto": "..." } ]
             response.put("En_este_formato", ejemplo);
 
             return response;
