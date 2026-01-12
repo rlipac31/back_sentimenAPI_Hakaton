@@ -68,7 +68,7 @@ LISTANDO COMENTARIOS
     * Home
     http://localhost:8090/
     
-    * lista los 20 ultimos comentarios y sus estadisticas
+    * lista los 20 ultimos comentarios y susu estadisticas
     http://localhost:8090/stats
     
     * se puede ingresar el numero deseado de comentarios a anzalizar  como parametro
