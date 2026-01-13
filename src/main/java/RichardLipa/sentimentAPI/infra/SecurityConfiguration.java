@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,6 +32,9 @@ public class SecurityConfiguration  {
     // de sucuriada  de sprint security con httpSecuriry
     @Bean//anotacion jpa para que sprint boot puede cargar ese metodo y sorint security lo pueda leer
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
+               http
+                       .cors(Customizer.withDefaults()); // Esto le dice a Security que use tu CorsConfiguration
+
       return  http.csrf(csrf->csrf.disable())//desabilitamos el csrf no se necesista para api Rest
               .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//desabilitamos el redireccionamiento a login , ahora carganormalmente kas rutas sin pedir loguearse//ahora nuestro sistema ya no esta en STATEFULL ahora esta en STATELESS
               .authorizeHttpRequests( req ->{

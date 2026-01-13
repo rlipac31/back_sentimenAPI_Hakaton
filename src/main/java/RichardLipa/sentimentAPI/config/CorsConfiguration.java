@@ -9,17 +9,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfiguration implements WebMvcConfigurer {
     @Override
-    public  void addCorsMappings (CorsRegistry registry){
+    public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                // Permite cualquier origen (cualquier IP, cualquier dominio, incluyendo ngrok)
-                .allowedOrigins("*")
-                //   // Orígenes permitidos (por ejemplo, tu frontend de React/Angular)
-                //.allowedOrigins("http://localhost:3000","https://tudominiofrontend.com")
-                // // Métodos HTTP permitidos
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
-
-
-
+                // 1. Especifica los dominios exactos (NO uses "*" si envías tokens)
+                .allowedOrigins("http://localhost:3000")
+                // 2. Permite los métodos necesarios
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                // 3. ¡IMPORTANTE! Permite la cabecera de Autorización
+                .allowedHeaders("Authorization", "Content-Type", "Accept")
+                // 4. Permite que el navegador envíe el token
+                .allowCredentials(true)
+                // 5. Tiempo que el navegador guarda esta configuración (3600 seg = 1 hora)
+                .maxAge(3600);
     }
 }
 
