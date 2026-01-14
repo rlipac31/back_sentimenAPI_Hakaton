@@ -13,7 +13,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 // 1. Especifica los dominios exactos (NO uses "*" si envías tokens)
                 .allowedOrigins("http://localhost:3000")
-                .allowedOrigins("https://lipa-sentiment-api.azurewebsites.net")
+                .allowedOrigins("https://fron-sentiment-api.vercel.app/")
                 // 2. Permite los métodos necesarios
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 // 3. ¡IMPORTANTE! Permite la cabecera de Autorización
