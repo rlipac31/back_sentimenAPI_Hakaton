@@ -93,8 +93,9 @@ public class PredictController {
         }
     }*/
 
+/*
     // 3. RECIBE UN ARCHIVO CSV Y DEVUELVE OTRO ARCHIVO CSV (EXPORTAR)
-/*    @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")
+   @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")
     public void exportarCsv(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws Exception {
         // Configuramos el nombre del archivo de salida
         response.setContentType("text/csv");
@@ -106,6 +107,7 @@ public class PredictController {
         // Llamamos al servicio para escribir los resultados directamente en el flujo de respuesta
         service.escribirCsv(resultados, response.getWriter());
     }
-    */
+*/
+
 
 }

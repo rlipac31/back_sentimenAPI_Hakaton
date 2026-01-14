@@ -12,9 +12,8 @@ public class CorsConfiguration implements WebMvcConfigurer {
     public  void addCorsMappings (CorsRegistry registry){
         registry.addMapping("/**")
                 // Permite cualquier origen (cualquier IP, cualquier dominio, incluyendo ngrok)
-                .allowedOrigins("*")
                 //   // Orígenes permitidos (por ejemplo, tu frontend de React/Angular)
-                //.allowedOrigins("http://localhost:3000","https://tudominiofrontend.com")
+                .allowedOrigins("http://localhost:3000","https://tudominiofrontend.com")
                 // // Métodos HTTP permitidos
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
 

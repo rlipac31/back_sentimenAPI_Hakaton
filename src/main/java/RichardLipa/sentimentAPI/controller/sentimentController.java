@@ -5,6 +5,7 @@ import RichardLipa.sentimentAPI.domain.comentario.*;
 import RichardLipa.sentimentAPI.service.SentimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -107,4 +108,47 @@ public class sentimentController {
                     .body(new ErrorMensaje("Error interno al procesar el CSV: " + e.getMessage(), 500));
         }
     }
+
+    @PostMapping(value = "/export-csv", consumes = "application/json")// tiene que ser POST porque get tiene limitacion de escritra de caracteres(con PostMaapping solo capturamos la informacion que el usuario eta veindo en su pantalla:los comentarios lsitados)
+    public void exportarCsv(@RequestBody List<DatosRespuestaSentimiento> resultados, HttpServletResponse response) throws Exception {
+        // 1. Configurar los headers de la respuesta para descarga de archivo
+        response.setContentType("text/csv");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=resultados_sentimiento.csv");
+
+        // 2. Llamamos al servicio para escribir los resultados directamente en el flujo de respuesta
+        // Usamos el writer de la respuesta (HttpServletResponse)
+        service.escribirCsv(resultados, response.getWriter());
+    }
+
+    // 3. RECIBE UN ARCHIVO CSV Y DEVUELVE OTRO ARCHIVO CSV (EXPORTAR)
+/*
+   @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")
+    public void exportarCsv(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws Exception {
+        // Configuramos el nombre del archivo de salida
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=resultados_sentimiento.csv");
+
+        List<DatosTextoJson> datos = service.leerCsv(file);
+        List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
+
+        // Llamamos al servicio para escribir los resultados directamente en el flujo de respuesta
+        service.escribirCsv(resultados, response.getWriter());
+    }
+*/
+    /// ////@PostMapping(value = "/export-csv", consumes = "application/json", produces = "text/csv")
+    /// public void exportarCsv(@RequestBody List<DatosRespuestaSentimiento> resultados, HttpServletResponse response) throws Exception {
+    ///     // 1. Configurar headers para la descarga del archivo
+    ///     response.setContentType("text/csv");
+    ///     response.setCharacterEncoding("UTF-16"); // Recomendado para tildes y caracteres especiales
+    ///     response.setHeader("Content-Disposition", "attachment; filename=resultados_sentimiento.csv");
+    ///
+    ///     // 2. Llamar al servicio para escribir el CSV usando el Writer de la respuesta
+    ///     // No necesitamos leer archivos ni procesar, ya recibimos los "resultados" listos.
+    ///     service.escribirCsv(resultados, response.getWriter());
+    /// }
+
+
+
+
 }
