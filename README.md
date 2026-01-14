@@ -65,13 +65,13 @@ LISTANDO COMENTARIOS
     { "texto": "comentario........."}
   ]
   
-  
+    * Home
     http://localhost:8090/
     
-    * lista las 20 ultimos comentarios y susu estadisticas
+    * lista los 20 ultimos comentarios y susu estadisticas
     http://localhost:8090/stats
     
-    * se puede ingresar el numero deseado de comentarios como parametro
+    * se puede ingresar el numero deseado de comentarios a anzalizar  como parametro
     http://localhost:8090/stats?size=50
     
 

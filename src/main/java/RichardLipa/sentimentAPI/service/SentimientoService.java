@@ -43,35 +43,6 @@ public class SentimientoService {
     @Autowired
     private IComentarioRepository comentarioRepository;
 
-    @Transactional
-    public ResponseEntity<ErrorMensaje> guardarEnBaseDeDatos(List<DatosRespuestaSentimiento> resultados) {
-
-        try {
-            if (resultados == null || resultados.isEmpty()) {
-                return ResponseEntity.badRequest().body(new ErrorMensaje("Lista vacía::DESDE SERVOCIO GUARDAR", 400));
-            }
-                List<Comentario> comentarios = resultados.stream().map(dto -> {
-                    Comentario comentario = new Comentario();
-                    comentario.setComentario(dto.texto());
-                    comentario.setPrevision(Tipo.valueOf(dto.prevision().toUpperCase()));
-                    // Usamos doubleValue() o floatValue() según tu entidad
-                    comentario.setProvabilidad(dto.probabilidad().floatValue());
-                    comentario.setFechaRegistro(LocalDateTime.now());
-                    comentario.setState(true);
-                    return comentario;
-                }).toList();
-
-                comentarioRepository.saveAll(comentarios);
-
-            }catch (Exception e) {
-                // Si la API en la nube falla o hay error de red, cae aquí
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                        .body(new ErrorMensaje("Huboo un erro al guardar la lista el la BD : " + e.getMessage(), 503));
-            }
-
-
-        return null;
-    }
 
    // private final String COLAB_URL = "http://127.0.0.1:4000/predict";//servidor local
    private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
@@ -126,6 +97,37 @@ public class SentimientoService {
             }
         }
     }
+
+    @Transactional
+    public ResponseEntity<ErrorMensaje> guardarEnBaseDeDatos(List<DatosRespuestaSentimiento> resultados) {
+
+        try {
+            if (resultados == null || resultados.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ErrorMensaje("Lista vacía::DESDE SERVOCIO GUARDAR", 400));
+            }
+            List<Comentario> comentarios = resultados.stream().map(dto -> {
+                Comentario comentario = new Comentario();
+                comentario.setComentario(dto.texto());
+                comentario.setPrevision(Tipo.valueOf(dto.prevision().toUpperCase()));
+                // Usamos doubleValue() o floatValue() según tu entidad
+                comentario.setProvabilidad(dto.probabilidad().floatValue());
+                comentario.setFechaRegistro(LocalDateTime.now());
+                comentario.setState(true);
+                return comentario;
+            }).toList();
+
+            comentarioRepository.saveAll(comentarios);
+
+        }catch (Exception e) {
+            // Si la API en la nube falla o hay error de red, cae aquí
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(new ErrorMensaje("Huboo un erro al guardar la lista el la BD : " + e.getMessage(), 503));
+        }
+
+
+        return null;
+    }
+
 
 }
 
