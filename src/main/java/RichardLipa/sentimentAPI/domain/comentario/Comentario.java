@@ -33,7 +33,7 @@ public class Comentario {
         this.id = null;
         this.comentario = datos.texto();
         this.prevision = datos.prevision();
-        this.provabilidad= datos.provabilidad();
+        this.provabilidad= datos.probabilidad();
         this.fechaRegistro = LocalDateTime.now();
         this.state = true;
     }

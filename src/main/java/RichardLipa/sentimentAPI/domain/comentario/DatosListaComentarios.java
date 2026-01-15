@@ -10,7 +10,7 @@ public record DatosListaComentarios(
         Long id,
         String comentario,
         Tipo prevision,
-        Float provabilidad,
+        Float probabilidad,
         String fecharegistro
 ) {
     public DatosListaComentarios(Comentario comentario) {

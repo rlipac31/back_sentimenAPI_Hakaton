@@ -7,20 +7,22 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfiguration implements WebMvcConfigurer {
+public class CorsConfiguration implements WebMvcConfigurer { // Cambié el nombre para evitar conflictos con Spring
     @Override
-    public  void addCorsMappings (CorsRegistry registry){
+    public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                // Permite cualquier origen (cualquier IP, cualquier dominio, incluyendo ngrok)
-                .allowedOrigins("*")
-                //   // Orígenes permitidos (por ejemplo, tu frontend de React/Angular)
-                //.allowedOrigins("http://localhost:3000","https://tudominiofrontend.com")
-                // // Métodos HTTP permitidos
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
+                // PASO 1: Pasa todos los dominios en una sola llamada separados por coma
+                .allowedOrigins("http://localhost:3000","https://fron-sentiment-api-hlnd.vercel.app/", "https://fron-sentiment-api.vercel.app")
 
+                // PASO 2: Métodos permitidos
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 
+                // PASO 3: Headers (Añadimos "*" para evitar que falte alguno de Next.js)
+                .allowedHeaders("*")
 
+                // PASO 4: Credenciales (Obligatorio si usas Bearer Tokens o Cookies)
+                .allowCredentials(true)
+
+                .maxAge(3600);
     }
 }
-
-

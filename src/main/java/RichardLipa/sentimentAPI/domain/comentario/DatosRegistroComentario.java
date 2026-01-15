@@ -11,7 +11,7 @@ public record DatosRegistroComentario(
 
        @NotBlank String texto,
         Tipo prevision,
-        Float provabilidad
+        Float probabilidad
 
 ) {
 }

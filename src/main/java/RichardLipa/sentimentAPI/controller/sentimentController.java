@@ -121,34 +121,4 @@ public class sentimentController {
         service.escribirCsv(resultados, response.getWriter());
     }
 
-    // 3. RECIBE UN ARCHIVO CSV Y DEVUELVE OTRO ARCHIVO CSV (EXPORTAR)
-/*
-   @PostMapping(value = "/export-csv", consumes = "multipart/form-data", produces = "text/csv")
-    public void exportarCsv(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws Exception {
-        // Configuramos el nombre del archivo de salida
-        response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=resultados_sentimiento.csv");
-
-        List<DatosTextoJson> datos = service.leerCsv(file);
-        List<DatosRespuestaSentimiento> resultados = service.procesarLista(datos);
-
-        // Llamamos al servicio para escribir los resultados directamente en el flujo de respuesta
-        service.escribirCsv(resultados, response.getWriter());
-    }
-*/
-    /// ////@PostMapping(value = "/export-csv", consumes = "application/json", produces = "text/csv")
-    /// public void exportarCsv(@RequestBody List<DatosRespuestaSentimiento> resultados, HttpServletResponse response) throws Exception {
-    ///     // 1. Configurar headers para la descarga del archivo
-    ///     response.setContentType("text/csv");
-    ///     response.setCharacterEncoding("UTF-16"); // Recomendado para tildes y caracteres especiales
-    ///     response.setHeader("Content-Disposition", "attachment; filename=resultados_sentimiento.csv");
-    ///
-    ///     // 2. Llamar al servicio para escribir el CSV usando el Writer de la respuesta
-    ///     // No necesitamos leer archivos ni procesar, ya recibimos los "resultados" listos.
-    ///     service.escribirCsv(resultados, response.getWriter());
-    /// }
-
-
-
-
 }
