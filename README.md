@@ -1,4 +1,5 @@
-# 🚀 SentimentAPI: Java Spring Boot & Python AI Integration
+# 🚀 SentimentAPI:Analizador de comentarios.
+## Proyecto: Java Spring Boot & Python AI Integration
 
 Este proyecto consiste en una arquitectura robusta de microservicios diseñada para clasificar automáticamente el sentimiento de los comentarios de usuarios. Integra un backend empresarial con un motor de Inteligencia Artificial para la toma de decisiones basada en datos.
 
