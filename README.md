@@ -1,29 +1,32 @@
 # 🚀 SentimentAPI: Java Spring Boot & Python AI Integration
 
-Este proyecto consiste en una arquitectura robusta de microservicios (Backend + IA) diseñada para clasificar automáticamente el sentimiento de los comentarios de usuarios. El sistema integra un backend en **Spring Boot** con un motor de análisis de sentimiento desarrollado en **Python**, permitiendo el almacenamiento persistente y la generación de estadísticas.
-
-
-
-## 🛠️ Tecnologías Utilizadas
-
-### Backend (Java)
-* **Java 17+** & **Spring Boot 3**
-* **Spring Security & JWT:** Implementación de seguridad basada en roles y tokens para proteger los endpoints.
-* **Spring Data JPA:** Gestión de la capa de persistencia.
-* **MySQL:** Base de datos relacional para el almacenamiento de comentarios y resultados.
-* **Flyway:** Control de versiones de la base de datos (Migrations).
-* **Lombok:** Reducción de código boilerplate.
-
-### AI Service (Python)
-* **Flask:** Microframework para exponer el modelo como una API REST.
-* **Scikit-Learn & Joblib:** Carga y ejecución del modelo de Machine Learning entrenado.
-* **NLP Utils:** Procesamiento de lenguaje natural (limpieza de texto y normalización).
-* * **Joblib:** Para la serialización del modelo.
-
+Este proyecto consiste en una arquitectura robusta de microservicios diseñada para clasificar automáticamente el sentimiento de los comentarios de usuarios. Integra un backend empresarial con un motor de Inteligencia Artificial para la toma de decisiones basada en datos.
 
 ---
 
-## 🧠 El Corazón del Proyecto: Servicio de Clasificación (IA)
+## 🛠️ Stack Tecnológico
+
+### Backend & Seguridad
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![JSON Web Tokens](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+
+### Inteligencia Artificial & Data Science
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+
+### Herramientas de Desarrollo
+![Lombok](https://img.shields.io/badge/Lombok-red?style=for-the-badge)
+![Flyway](https://img.shields.io/badge/Flyway-CC0202?style=for-the-badge&logo=flyway&logoColor=white)
+![Maven](https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+
+---
+
+## 🧠 Inteligencia Artificial: Análisis Híbrido de Sentimientos
 
 El componente de Python actúa como un cerebro analítico. A diferencia de un modelo básico, este servicio utiliza un **enfoque híbrido**:
 
@@ -55,7 +58,15 @@ cd python-service
 pip install flask joblib scikit-learn
 python app.py
 ```
-
+**Endpoint de IA:** `POST /predict`
+**Response:**
+```json
+{
+  "texto": "El servicio fue excelente y rápido",
+  "prevision": "POSITIVO",
+  "probabilidad": 0.95
+}
+```
 ### 🌟 Características Principales
 
 * **Clasificación de Sentimiento con IA:** Integración directa con **Mistral AI** para clasificar textos en POSITIVO, NEGATIVO o NEUTRO.
@@ -106,17 +117,40 @@ spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
 spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 ```
 
-### 3. Rutas
 
 ## endPoinds
 LISTANDO COMENTARIOS
   * formato json (Importante si no da error 403)
+
+  * Home
+    http://localhost:8090/
+    ```
+     {
+       "status": "ONLINE",
+       "message": "La API de Sentimiento está funcionando correctamente en Azure",
+       "endpoints": {
+       "analisis_json": "/sentiment",
+       "carga_masiva_csv": "/sentiment/upload-csv",
+       "estadisticas": "/stats"
+       },
+       "formato_requerido": "Enviar un Body tipo JSON con la siguiente estructura:",
+       "En_este_formato": [
+       {
+       "texto": "comentarios.........."
+       }
+       ]
+     }
+    ```
+    * Procesar comentarios
+    * 
+    http://localhost:8090/sentiment
+  ```
   [
     { "texto": "comentario........."}
   ]
-  
-    * Home
-    http://localhost:8090/
+
+  ```
+    
     
     * lista los 20 ultimos comentarios y susu estadisticas
     http://localhost:8090/stats
