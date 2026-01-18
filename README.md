@@ -1,10 +1,60 @@
-# 🤖 SentimentAPI: Análisis de Sentimiento con Mistral AI
+# 🚀 SentimentAPI: Java Spring Boot & Python AI Integration
 
-## 🚀 Visión General del Proyecto
+Este proyecto consiste en una arquitectura robusta de microservicios (Backend + IA) diseñada para clasificar automáticamente el sentimiento de los comentarios de usuarios. El sistema integra un backend en **Spring Boot** con un motor de análisis de sentimiento desarrollado en **Python**, permitiendo el almacenamiento persistente y la generación de estadísticas.
 
-**SentimentAPI** es un robusto *backend* RESTful construido con **Spring Boot** diseñado para gestionar comentarios de usuarios y clasificarlos automáticamente por sentimiento (Positivo, Negativo o Neutro) utilizando el poder de la Inteligencia Artificial de **Mistral AI**.
 
-El objetivo principal es clasificar automáticamente los comentarios registrados en la base de datos, demostrando una aplicación práctica de PLN (Procesamiento de Lenguaje Natural) donde los comentarios no clasificados se envían a un modelo de lenguaje grande (LLM) para su tipificación.
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend (Java)
+* **Java 17+** & **Spring Boot 3**
+* **Spring Security & JWT:** Implementación de seguridad basada en roles y tokens para proteger los endpoints.
+* **Spring Data JPA:** Gestión de la capa de persistencia.
+* **MySQL:** Base de datos relacional para el almacenamiento de comentarios y resultados.
+* **Flyway:** Control de versiones de la base de datos (Migrations).
+* **Lombok:** Reducción de código boilerplate.
+
+### AI Service (Python)
+* **Flask:** Microframework para exponer el modelo como una API REST.
+* **Scikit-Learn & Joblib:** Carga y ejecución del modelo de Machine Learning entrenado.
+* **NLP Utils:** Procesamiento de lenguaje natural (limpieza de texto y normalización).
+* * **Joblib:** Para la serialización del modelo.
+
+
+---
+
+## 🧠 El Corazón del Proyecto: Servicio de Clasificación (IA)
+
+El componente de Python actúa como un cerebro analítico. A diferencia de un modelo básico, este servicio utiliza un **enfoque híbrido**:
+
+1.  **Modelo de Machine Learning:** Utiliza un vectorizador y un modelo entrenado por el equipo de Data Science para predecir la probabilidad de sentimiento basándose en patrones estadísticos.
+2.  **Ajuste Manual (Heurístico):** El script `app.py` implementa una función de `calcular_score_manual` que busca palabras clave críticas (como "pesadilla", "excelente", "malo") para ajustar la confianza del modelo.
+3.  **Lógica de Decisión:** Combina la probabilidad de la IA con el ajuste manual para entregar una clasificación final de **POSITIVO** o **NEGATIVO**.
+
+---
+
+## 🔄 Flujo de Datos
+
+1.  **Petición:** El cliente envía un comentario a la API de Spring Boot (autenticado vía JWT).
+2.  **Comunicación Inter-service:** Spring Boot consume el endpoint `/predict` del servicio de Python mediante un `RestTemplate` o `WebClient`.
+3.  **Procesamiento:** El servicio de Python procesa el texto, aplica el modelo y devuelve el JSON con la `prevision` y su `probabilidad`.
+4.  **Persistencia:** Spring Boot recibe la respuesta, la asocia al usuario/contexto y la guarda en la base de datos **MySQL** para futuras consultas estadísticas.
+
+---
+
+## ⚙️ Configuración y Ejecución
+
+### Requisitos
+* JDK 17 o superior.
+* Python 3.9 o superior.
+* Instancia de MySQL.
+
+### Ejecutar Servicio de Python (IA)
+```bash
+cd python-service
+pip install flask joblib scikit-learn
+python app.py
+```
 
 ### 🌟 Características Principales
 
