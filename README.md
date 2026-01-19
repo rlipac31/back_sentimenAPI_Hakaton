@@ -87,6 +87,7 @@ python app.py
 | **Utilidades**     | Lombok                                        | Reducción de código boilerplate |
 | **Seguridad**      | Spring Security                               | Autenticación y Autorización |
 | **Serialización**  | Jackson (`ObjectMapper`)                      | Manejo de JSON de la IA |
+| **Excel**          | OpenCSV                                       | Para la lectura y escritura (import and export .csv) |
 
 ## ⚙️ Configuración y Despliegue Local
 
