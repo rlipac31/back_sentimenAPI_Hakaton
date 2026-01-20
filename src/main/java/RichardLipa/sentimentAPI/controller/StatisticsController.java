@@ -45,8 +45,8 @@ public class StatisticsController {
                         Collectors.counting()
                 ));
 
-        long posi = contador.get(true);
-        long nega = contador.get(false);
+        float posi = contador.get(true);
+        float nega = contador.get(false);
         int totalEnPagina = listaEnPagina.size();
         System.out.println("psoitvos :: "+ posi);
         System.out.println("negativos  :: "+ nega);
