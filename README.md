@@ -86,15 +86,16 @@ python app.py
 
 ## 🛠️ Tecnologías Utilizadas
 
-| Categoría          | Tecnología                                    | Versión Clave |
-|:-------------------|:----------------------------------------------| :--- |
-| **Backend**        | Spring Boot                                   | 3.x |
+| Categoría          | Tecnología                                    | Versión Clave                                        |
+|:-------------------|:----------------------------------------------|:-----------------------------------------------------|
+| **Backend**        | Spring Boot                                   | 3.5.9                                                |
 | **Colap**          | Modelo entrenado por el equipo de Data Ciense |
-| **Persistencia**   | MySQL                                         | Base de datos principal |
-| **Migraciones DB** | Flyway                                        | Gestión de esquemas de BD |
-| **Utilidades**     | Lombok                                        | Reducción de código boilerplate |
-| **Seguridad**      | Spring Security                               | Autenticación y Autorización |
-| **Serialización**  | Jackson (`ObjectMapper`)                      | Manejo de JSON de la IA |
+| **Persistencia**   | MySQL                                         | Base de datos principal                              |
+| **Migraciones DB** | Flyway                                        | Gestión de esquemas de BD                            |
+| **Utilidades**     | Lombok                                        | Reducción de código boilerplate                      |
+| **Seguridad**      | Spring Security                               | Para la seguridad de las rutas                       |
+| **Authentication** | Json Web Token                                | Para generar y validar token de los usuarios         |
+| **Serialización**  | Jackson (`ObjectMapper`)                      | Manejo de JSON de la IA                              |
 | **Excel**          | OpenCSV                                       | Para la lectura y escritura (import and export .csv) |
 
 ## ⚙️ Configuración y Despliegue Local

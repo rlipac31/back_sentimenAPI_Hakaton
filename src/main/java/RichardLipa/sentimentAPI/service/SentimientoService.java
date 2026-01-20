@@ -27,25 +27,12 @@ import java.util.Map;
 @Service
 public class SentimientoService {
 
-    /*
-    *
-    * ruta de url ser servidor de api python
-    * <iframe
-	src="https://rlipac-python-api.hf.space"
-	frameborder="0"
-	width="850"
-	height="450"
-></iframe>
-
-    *
-    * */
-
     @Autowired
     private IComentarioRepository comentarioRepository;
 
 
-   // private final String COLAB_URL = "http://127.0.0.1:4000/predict";//servidor local
-   private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
+    private final String COLAB_URL = "http://127.0.0.1:8000/predict";//servidor local
+  // private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
 
     public List<DatosRespuestaSentimiento> procesarLista(List<DatosRegistroComentario> datosTexto) {
         System.out.println("texto antes de procesar :::  " + datosTexto);
@@ -103,7 +90,7 @@ public class SentimientoService {
 
         try {
             if (resultados == null || resultados.isEmpty()) {
-                return ResponseEntity.badRequest().body(new ErrorMensaje("Lista vacía::DESDE SERVOCIO GUARDAR", 400));
+                return ResponseEntity.badRequest().body(new ErrorMensaje("Lista vacía::DESDE SERVICIO GUARDAR", 400));
             }
             List<Comentario> comentarios = resultados.stream().map(dto -> {
                 Comentario comentario = new Comentario();
