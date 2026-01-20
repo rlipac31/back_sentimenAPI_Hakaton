@@ -31,8 +31,8 @@ public class SentimientoService {
     private IComentarioRepository comentarioRepository;
 
 
-    private final String COLAB_URL = "http://127.0.0.1:8000/predict";//servidor local
-  // private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
+   // private final String COLAB_URL = "http://127.0.0.1:8000/predict";//servidor local
+   private final String COLAB_URL = "https://rlipac-python-api.hf.space/predict";
 
     public List<DatosRespuestaSentimiento> procesarLista(List<DatosRegistroComentario> datosTexto) {
         System.out.println("texto antes de procesar :::  " + datosTexto);
